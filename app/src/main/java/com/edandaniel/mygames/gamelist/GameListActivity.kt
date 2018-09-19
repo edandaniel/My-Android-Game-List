@@ -1,10 +1,12 @@
 package com.edandaniel.mygames.gamelist
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.LinearLayout
 import android.widget.Toast
+import com.edandaniel.mygames.DetailActivity
 import com.edandaniel.mygames.R
 import com.edandaniel.mygames.model.Game
 import kotlinx.android.synthetic.main.activity_game_list.*
@@ -15,8 +17,11 @@ class GameListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game_list)
 
-        rvGames.adapter = GameAdapter(this, getGames(),{
-            Toast.makeText(this,it.title,Toast.LENGTH_LONG).show()
+        rvGames.adapter = GameAdapter(this, getGames(),{game ->
+            //rip toast "All toasters toast toast" - Mario
+            val detailIntent = Intent(this, DetailActivity::class.java)
+            detailIntent.putExtra("GAME", game) //serializable not performatic, user parceable
+            startActivity(detailIntent)
         })
 
         rvGames.layoutManager = LinearLayoutManager(this)
